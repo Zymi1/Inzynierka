@@ -8,7 +8,7 @@ E - 13
 D4 DO D7 - 5 DO 2
 A - 10
 K - MINUS
-
+ddd
 https://docs.arduino.cc/learn/electronics/lcd-displays
 */
 
