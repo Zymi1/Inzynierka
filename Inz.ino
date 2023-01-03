@@ -8,7 +8,7 @@ E - 13
 D4 DO D7 - 5 DO 2
 A - 10
 K - MINUS
-ddd
+
 https://docs.arduino.cc/learn/electronics/lcd-displays
 */
 
@@ -33,17 +33,19 @@ LiquidCrystal lcd(rs, en, d4, d5, d6, d7);
 int rawValue; // A/D readings
 int offset = 400; // zero pressure adjust
 int fullScale = 9630; // max pressure (span) adjust
-float R = 287.15;
-float ps; // final pressure
+float R = 287.15; //indywidualna stała gazowa dla powietrza
+float kappa = 1.4 //wykładnik adiabaty dla powietrza
+float ps; // cisnienie statyczne
 float H; //wysokosc
-float Hfeet;
-float pspotega;
-float psulamek;
-float pd;
-float T_H;
-float rho_H;
-float v_IAS;
-float v_TAS;
+float Hfeet; //wysokosc w stopach
+float pspotega; //(ps/p0)^1/5.256
+float psulamek; //ps/p0
+float pd; //cisnienie dynamiczne
+float T_H; //temperatura na wysokosci
+float rho_H; //gestosc na wysokosci
+float v_IAS; //predkosc indykowana
+float v_TAS; //predkosz rzeczywista
+float a_H; //predkosc dzwieku na wysokosci
 
 void setup() 
 {
@@ -77,23 +79,21 @@ void loop()
   v_IAS=sqrt((2*pd*1000)/rho_H);
   v_TAS = v_IAS * sqrt(1.225/rho_H);
 
+  a_H = sqrt(kappa*R*T_H);
+  Ma = V_TAS/a_H;
+  
   lcd.clear();
 
   lcd.setCursor(0, 0); 
-  //lcd.print("WYSOKOSC ");
-  //lcd.print(analogRead(A5));
-  lcd.print(pd,1);
-  lcd.print(" kPa ");
+  lcd.print("WYSOKOSC ");
+  lcd.print(analogRead(A5));
+  lcd.print(H,1);
+  lcd.print(" m");
 
   lcd.setCursor(0, 1);
-  /*
   lcd.print(Hfeet,0);
   lcd.print(" FT");
-  */
-  lcd.print(v_IAS,1);
-  lcd.print("m/s ");
-  lcd.print(v_TAS,1);
-  lcd.print("m/s");  
-  delay(1000);
+
+  delay(300);
 
 }
