@@ -57,7 +57,7 @@ void setup()
   unsigned status;
 
   status = bme.begin();  
-/*
+
       if (!status) {
         Serial.println("Could not find a valid BME280 sensor, check wiring, address, sensor ID!");
         Serial.print("SensorID was: 0x"); Serial.println(bme.sensorID(),16);
@@ -67,7 +67,7 @@ void setup()
         Serial.print("        ID of 0x61 represents a BME 680.\n");
         while (1) delay(10);
     }
-  */
+  
   mySensor.begin(SMOOTHED_AVERAGE, 10);
   mySensor2.begin(SMOOTHED_AVERAGE, 30);
 
@@ -98,8 +98,8 @@ void loop()
   pspotega = pow(psulamek, (1/5.256)); 
   H = 44331*(1-pspotega);
 
-  //T = bme.readTemperature() + 273,15;  
-  T = 273;
+  T = bme.readTemperature() + 273,15;  
+
   T_H = T - 6.5*(H/1000);
   rho_H = (ps*1000)/(R*T_H);
 
